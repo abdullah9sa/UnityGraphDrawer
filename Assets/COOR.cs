@@ -1,8 +1,7 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
-
 
 public class COOR : MonoBehaviour {
     public LineRenderer lr;
@@ -43,18 +42,27 @@ public class COOR : MonoBehaviour {
         }
     }
 
+    // string RemoveWhitespace (this string input) {
+    //     return new string (input.ToCharArray ()
+    //         .Where (c => !Char.IsWhiteSpace (c))
+    //         .ToArray ());
+    // }
+
     public void EnterEQN () {
 
+        if(feld.text == null || feld.text == "")
+            return;
+
         lr.positionCount = 0; //   float x = 0;
-        string str = feld.text;
+        string str = feld.text;//= RemoveWhitespace (feld.text);
         int op = 0;
         for (float x = -8; x <= 8; x += 0.07f) {
-
 
             if (!str.Contains ("x")) //or !contains sin >>> etc...
             {
                 EQN = float.Parse (str);
             }
+
             if (str.Contains ("x^")) //or contains sin >>> etc...
             {
                 float power = float.Parse (str.Substring (str.IndexOf ("x^") + 2));
@@ -66,6 +74,7 @@ public class COOR : MonoBehaviour {
                     EQN = Mathf.Pow (x, power);
                 }
             }
+
             if (str.Contains ("x") && !str.Contains ("^")) {
                 if (char.IsDigit (str[0])) {
                     float num = float.Parse (str.Substring (0, str.IndexOf ('x')));
@@ -75,21 +84,21 @@ public class COOR : MonoBehaviour {
                 }
             }
 
-            if (str.Contains ("x+") && char.IsDigit (str[2])) {
+            if (str.Contains ("x+") && char.IsDigit (str[str.IndexOf ('+')+1])) {
                 if (char.IsDigit (str[0])) {
                     float num = float.Parse (str.Substring (0, str.IndexOf ('x')));
                     EQN = num * x + float.Parse (str[2].ToString ());
                 } else {
-                    EQN = x + float.Parse (str[-1].ToString ());
+                    EQN = x + float.Parse (str[2].ToString ());
                 }
             }
 
-            if (str.Contains ("x-") && char.IsDigit (str[2])) {
+            if (str.Contains ("x-") && char.IsDigit (str[str.IndexOf ('+')+1])) {
                 if (char.IsDigit (str[0])) {
                     float num = float.Parse (str.Substring (0, str.IndexOf ('x')));
-                    EQN = num * x - float.Parse (str[2].ToString ());
+                    EQN = num * x - float.Parse (str[str.IndexOf ('+')+1].ToString ());
                 } else {
-                    EQN = x - float.Parse (str[-1].ToString ());
+                    EQN = x - float.Parse (str[str.IndexOf ('+')+1].ToString ());
                 }
             }
 
