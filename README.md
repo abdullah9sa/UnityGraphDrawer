@@ -15,3 +15,4 @@ examples :
 - "cos(x)"
 
 the program doesn't solve or simplfy equations. add , subtract , dividing  numbers.
+You'll find the excutable file in "Build" folder
